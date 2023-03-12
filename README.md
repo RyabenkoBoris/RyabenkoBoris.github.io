@@ -1,1 +1,4 @@
-# RyabenkoBoris.github.io
+# Рябенко Борис Юрійович КВ-01 
+Розробка статичного інтерфейсу Web-додатка<br>
+<b>Загальне завдання:</b> розробити статичні Web-сторінки додатку та перевірити коректне їх відображення на екранах різного розміру.
+https://docs.google.com/document/d/1o5q7mrQx1o3A12OzRDe9wXdPEZoQ2h7My5I1UuLmnm4/edit?usp=sharing
