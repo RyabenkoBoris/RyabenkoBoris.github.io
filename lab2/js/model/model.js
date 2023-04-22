@@ -42,7 +42,7 @@ export default class Calculator{
             if (this.#secondOperand === undefined){
                 this.#dotFlag = false;
                 this.#secondOperand = value;
-                this.#firstOperand = parseFloat(this.#firstOperand);
+                this.#firstOperand = String(parseFloat(this.#firstOperand));
                 this.#equation = this.#firstOperand + this.#operand + this.#secondOperand;
             }
             else{
@@ -86,16 +86,36 @@ export default class Calculator{
     delete(){
         if(this.#equation === undefined) return null;
         if(this.#secondOperand !== undefined){
-            this.#secondOperand = this.#secondOperand.slice(0, -1);
-            if(this.#secondOperand.length == 0){
-                this.#secondOperand = undefined;
+            if(this.#equation.slice(-1)=='%'){
+                this.percent();
+                return this.#equation;
             }
+            if (this.#equation.slice(-2)=='.0'){
+                this.#equation = this.#equation.slice(0, -1);
+                this.#dotFlag = false;
+            }
+            else if(this.#firstOperand.slice(-1) == '.') this.#dotFlag = false;
+            this.#secondOperand = this.#secondOperand.slice(0, -1);
+            if(this.#secondOperand.length == 0) this.#secondOperand = undefined;
         }
         else if(this.#operand !== undefined){
             this.#operand = undefined;
         }
         else{
+            if(this.#equation.slice(-1)=='%'){
+                this.percent();
+                return this.#equation;
+            }
+            if (this.#equation.slice(-2)=='.0'){
+                this.#equation = this.#equation.slice(0, -1);
+                this.#dotFlag = false;
+            }
+            else if(this.#firstOperand.slice(-1) == '.') this.#dotFlag = false;
             this.#firstOperand = this.#firstOperand.slice(0, -1);
+            if(this.#firstOperand.length == 0){
+                this.resetCalculator();
+                return null;
+            }
         }
         this.#equation = this.#equation.slice(0, -1);
         return this.#equation;
@@ -133,12 +153,12 @@ export default class Calculator{
     percent(){
         if(this.#secondOperand !== undefined){
             if(this.#percentSecond){
-                this.#secondOperand *= 100;
+                this.#secondOperand = String(this.#secondOperand * 100);
                 this.#percentSecond = false;
                 return this.#equation = this.#equation.slice(0, -1);
             }
             else{
-                this.#secondOperand *= 0.01;
+                this.#secondOperand = String(this.#secondOperand * 0.01);
                 this.#percentSecond = true;
                 return this.#equation += '%';
             }
@@ -148,12 +168,12 @@ export default class Calculator{
         }
         else if(this.#firstOperand !== undefined){
             if(this.#equation.indexOf('%') != -1){
-                this.#firstOperand *= 100;
+                this.#firstOperand = String(this.#firstOperand * 100);
                 this.#percentFirst = false;
                 return this.#equation = this.#equation.slice(0, -1);
             }
             else{
-                this.#firstOperand *= 0.01;
+                this.#firstOperand = String(this.#firstOperand * 0.01);
                 this.#percentFirst = true
                 return this.#equation += '%';
             }
